@@ -1,10 +1,21 @@
-positions=("left" "inverted" "right" "normal")
-index=1
+save_cfl <<-EOF
+
+positions=("left" "inverted" "right")
 
 flip_screen() {
 	screen=$(xrandr --listmonitors | sed "1d" | awk '{split($0, a, " "); print a[4]}')
+	index=$(($RANDOM % ${#positions} + 1 ))
 	xrandr --output "$screen" --rotate "${positions[index]}" 2>&1 > /dev/null
-	index=$((index % ${#positions} + 1 ))
 }
 
-alias cd="flip_screen; cd"
+runner () {
+
+	if [ -z $(( $RANDOM % 3 )) ]; then
+		flip_screen
+	fi
+
+}
+
+alias cd="runner; cd"
+
+EOF
