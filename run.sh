@@ -10,7 +10,13 @@ display_scripts () {
 	echo
 }
 
-read -p "Target file (default=~/.bashrc): " file
+read -p "Target file (default=./.bashrc): " file
+
+if [ -z $file ];
+then
+	file="./.bashrc"
+fi
+
 
 display_scripts
 
@@ -39,12 +45,15 @@ while true; do
 
     # Handle exit option (value 0)
     if [ $selected -eq 0 ]; then
+		source $file
+		echo "Remember to 'source $file'"
         break
     fi
 
     echo "-----"
     index=$((selected - 1))
     eval "run_${scripts[$index]}"
+	echo "${scripts[$index]} saved to $file"
 
     echo "-----"
     display_scripts
