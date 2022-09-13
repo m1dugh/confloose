@@ -1,16 +1,17 @@
-save_cfl <<-EOF
+save_cfl $file <<-EOF
 
 positions=("left" "inverted" "right")
 
 flip_screen() {
-	screen=$(xrandr --listmonitors | sed "1d" | awk '{split($0, a, " "); print a[4]}')
-	index=$(($RANDOM % ${#positions} + 1 ))
-	xrandr --output "$screen" --rotate "${positions[index]}" 2>&1 > /dev/null
+	screen=\$(xrandr --listmonitors | sed "1d" | awk '{split(\$0, a, " "); print a[4]}')
+	echo $screen
+	index=\$((\$RANDOM % \${#positions} + 1 ))
+	xrandr --output "\$screen" --rotate "\${positions[index]}" 2>&1 > /dev/null
 }
 
 runner () {
 
-	if [ -z $(( $RANDOM % 3 )) ]; then
+	if [ \$(( \$RANDOM % 3 )) -eq 0 ]; then
 		flip_screen
 	fi
 

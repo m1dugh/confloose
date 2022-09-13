@@ -10,7 +10,11 @@ display_scripts () {
 	echo
 }
 
+read -p "Target file (default=~/.bashrc): " file
+
 display_scripts
+
+
 
 
 while true; do
